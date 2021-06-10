@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog.AspNetCore;
 using Serilog.Core;
@@ -13,7 +14,7 @@ namespace Serilog.Enrichers.AspnetcoreHttpcontext
     {
         /// <summary>Sets Serilog as the logging provider.</summary>
         /// <remarks>
-        /// A <see cref="T:Microsoft.AspNetCore.Hosting.WebHostBuilderContext" /> is supplied so that configuration and hosting information can be used.
+        /// A <see cref="T:Microsoft.AspNetCore.Hosting.HostBuilderContext" /> is supplied so that configuration and hosting information can be used.
         /// The logger will be shut down when application services are disposed.
         /// </remarks>
         /// <param name="builder">The web host builder to configure.</param>
@@ -29,7 +30,7 @@ namespace Serilog.Enrichers.AspnetcoreHttpcontext
             if (configureLogger == null)
                 throw new ArgumentNullException(nameof(configureLogger));
 
-            builder.ConfigureServices((context, collection) =>
+            builder.ConfigureServices((WebHostBuilderContext context, IServiceCollection collection) =>
             {
                 collection.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
                 var provider = collection.BuildServiceProvider();
