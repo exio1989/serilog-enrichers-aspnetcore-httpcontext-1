@@ -63,7 +63,7 @@ namespace Serilog.Enrichers.AspnetcoreHttpcontext
 
             if (ctx.Request.ContentLength.HasValue && ctx.Request.ContentLength > 0)
             {
-                ctx.Request.EnableRewind();
+                ctx.Request.EnableBuffering();
 
                 using (StreamReader reader = new StreamReader(ctx.Request.Body, Encoding.UTF8, true, 1024, true))
                 {
